@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма Заказа Товаров</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            line-height: 1.6; /* Увеличиваем межстрочный интервал */
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .center-button {
+            display: block;
+            margin: 20px auto; /* Центрируем кнопку и добавляем вертикальные отступы */
+            width: 50%; /* Центрируем кнопку */
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .item-row input, .item-row select {
+            width: 48%;
+            padding: 10px;
+            margin-bottom: 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .ui-autocomplete {
+            max-height: 150px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .share-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .share-buttons button {
+            width: 48%;
+            padding: 10px;
+            margin-right: 10px; /* Добавляем расстояние между кнопками */
+        }
+        .share-buttons button:last-child {
+            margin-right: 0; /* Убираем отступ для последней кнопки */
+        }
+        .green-button {
+            background-color: #28a745;
+            color: white;
+        }
+        .green-button:hover {
+            background-color: #218838;
+        }
+        .orange-button {
+            background-color: #fd7e14;
+            color: white;
+        }
+        .orange-button:hover {
+            background-color: #e0540d;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 10px;
+        }
+        details {
+            margin-bottom: 20px;
+        }
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .category-container {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Форма Заказа Товаров</h1>
+<form id="orderForm">
+    <label for="storeName">Название торговой точки:</label>
+    <select id="storeName" name="storeName" required>
+        <option value="">Выберите торговую точку</option>
+        <option value="Арбат">Арбат</option>
+        <option value="БЦ Фреш Плаза">БЦ Фреш Плаза</option>
+        <option value="БЦ Эгершельд">БЦ Эгершельд</option>
+        <option value="Дальпресс на Комсомольской">Дальпресс на Комсомольской</option>
+        <option value="Кафе на 3 рабочей">Кафе на 3 рабочей</option>
+        <option value="Кафе на березовой">Кафе на березовой</option>
+        <option value="Кафе на Стрельникова">Кафе на Стрельникова</option>
+        <option value="Пит-стоп на Бородинской">Пит-стоп на Бородинской</option>
+        <option value="Питстоп на ботсаду2">Питстоп на ботсаду2</option>
+        <option value="Пит-стоп на Маяке">Пит-стоп на Маяке</option>
+        <option value="Пит-стоп на набережной 2">Пит-стоп на набережной 2</option>
+        <option value="Пит-стоп под Некрасовским мостом">Пит-стоп под Некрасовским мостом</option>
+        <option value="Приморгражданпроект">Приморгражданпроект</option>
+        <option value="ПТК Искра">ПТК Искра</option>
+        <option value="ПТК Луговая на 1 этаже возле эскалатора">ПТК Луговая на 1 этаже возле эскалатора</option>
+        <option value="ПТК Луговая на 2 этаже">ПТК Луговая на 2 этаже</option>
+        <option value="Реми на Борисенко">Реми на Борисенко</option>
+        <option value="Реми на Ильичева">Реми на Ильичева</option>
+        <option value="ТД Славянский">ТД Славянский</option>
+        <option value="ТРЦ Голубиная падь">ТРЦ Голубиная падь</option>
+        <option value="ТРЦ Снеговая падь">ТРЦ Снеговая падь</option>
+        <option value="ТТЦ Дазэл">ТТЦ Дазэл</option>
+        <option value="ТТЦ Дазэл Столовая">ТТЦ Дазэл Столовая</option>
+        <option value="ТЦ Надежда">ТЦ Надежда</option>
+        <option value="ТЦ Первореченский центр.вход">ТЦ Первореченский центр.вход</option>
+         <option value="Офис Ильичева 22а">Офис Ильичева 22а</option>
+    </select>
+    <div class="error-message" id="storeNameError" style="display:none;">Пожалуйста, выберите торговую точку.</div>
+    <label for="lastName">Фамилия сотрудника:</label>
+    <input type="text" id="lastName" name="lastName" required>
+    <div id="itemsContainer">
+        <!-- Здесь будут динамически добавляться строки -->
+    </div>
+    <div class="share-buttons">
+        <button type="button" onclick="submitForm()" class="orange-button">Сохранить заявку</button>
+        <button type="button" onclick="shareTextViaWhatsApp()" class="green-button">Поделиться в WhatsApp</button>
+    </div>
+</form>
+<script>
+    const categories = [
+        {
+            name: "Упаковка",
+            items: [
+                "Пакет крафт без ручки шт.",
+                "Пакет крафт с ручкой.",
+                "Эко упак. Меланж с проз.крыш. 500мл (уп. 50 шт)",
+                "Стакан д/супа с крыш. (340мл Крафт12С) (уп 45шт)",
+                "Стакан для супа с крышкой (470мл Белый) 50 шт в уп",
+                "Коробка для гамбургера (50 шт)",
+                "Упаковка для картошки фри уп.(50шт.)",
+                "Пакет для роллов Melange (100 шт.)",
+                "Пакет для гриля с окном (100 шт.)",
+                "Влажная салфетка (уп. 50 шт)",
+                "Банка прозрачная с крышкой бизнес 0,5 (25 шт), уп",
+                "Контейнер круглый кр 350 с крышкой (25 шт), уп"
+            ]
+        },
+        {
+            name: "Ингредиенты",
+            items: [
+                "Кофе зерновой 'Melange', кг",
+                "Горячий шоколад, кг",
+                "Молоко коровье, л",
+                "Молоко Кокосовое, л",
+                "Молоко Миндальное, л",
+                "Молоко овсяное 'Немолоко', л",
+                "Сливки 10 %, л",
+                "Стаканы Melange 400мл 16 oz (уп 50 шт)",
+                "Стаканы Melange 300мл 12 oz (уп 50 шт)",
+                "Стаканы Melange 200мл 8 oz (уп 50 шт)",
+                "Крышки 0,4-0,3 большие 12-16 oz (уп 100 шт)",
+                "Крышки 0,2 маленькие 8 oz (уп 100 шт)",
+                "Стаканы Plast 0,300 л (уп 100 шт)",
+                "Крышки Plast (уп 100 шт)",
+                "Рукавчики маленькие, 8 oz (уп. 100 шт)",
+                "Рукавчики большие 12-16 oz (уп 100 шт)",
+                "Трубочка КОКТЕЙЛЬНАЯ черная",
+                "Трубочка КОКТЕЙЛЬНАЯ цветная",
+                "Контейнер под блин с крыш. сп-19 (уп 70 шт), уп",
+                "Стакан бумаж. белый Удон 500 мл (50 шт), уп",
+                "Ложка столовая одноразовая (100 шт.), уп",
+                "Вилка одноразовая (100 шт.), уп",
+                "Нож одноразовый (200 шт.), уп",
+                "Фасовка 500 шт. 24*37, уп большая",
+                "Фасовка 1000 шт., уп маленькая",
+                "Палочки для еды бамбуковые, уп (100шт)",
+                "Салфетки Белые, уп",
+                "Подстаканники 4 ст. (шт.)",
+                "Соусник прозр. с крышкой 50мл, шт (в уп 60шт)",
+                "Соусник прозр. с крышкой 30мл, шт (в уп 60шт)",
+                "Стаканы пластиковые под воду (уп 100 шт.)",
+                "Подложка золото (уп 10шт)",
+                "Мусорные пакеты(М) 30л.",
+                "Мусорные пакеты(Б) 180л, (уп. 50 шт)",
+                "Зубочистки (уп. 500/ 1000 шт)",
+                "Перчатки п/э для БУРГЕРА (уп. 100 шт)",
+                "Контейнер для еды, 1 л",
+                "Контейнер для еды, 0,6 л",
+                "Мороженое (брекет 80 г), шт.",
+                "Заморозка смородина, кг (0.3 кг)",
+                "Заморозка ежевика, кг (0.3 кг)",
+                "Заморозка клубника, кг (0.3 кг)",
+                "Заморозка ананас, кг (0.3 кг)",
+                "Заморозка шпинат, кг (0.3 кг)",
+                "Заморозка манго, кг (0.3 кг)",
+                "Чай Адмирал (уп 25шт.)",
+                "Чай Ассам Бехора (уп 25шт.)",
+                "Чай Чёрн. Эрл Грей (уп 25шт.)",
+                "Чай Зеленый с мятой (уп 25шт.)",
+                "Чай Чабрец (уп 25шт.)",
+                "Чай Лесная ягода (уп 25шт.)",
+                "Чай Малина мята (уп 25шт.)",
+                "Чай Молочный улун (уп 25шт.)",
+                "Чай Таёжный (уп 25шт.)",
+                "Чай Сладкий поцелуй (уп 25шт.)",
+                "Чай Клубника со сливками (уп 25шт.)",
+                "Матча зеленая (уп. 0,040 кг)",
+                "Сок апельсин (1 л.)",
+                "Сок персик (1 л.)",
+                "Сок вишня (1 л.)",
+                "Сок яблоко (1 л.)",
+                "Трюфель без Сахара (уп. 30 шт)",
+                "Трюфель (уп. 30 шт)",
+                "Сгущ. Молоко, кг (1 уп 0,270 кг)",
+                "Квас (0,5 л), шт",
+                "Бонаква 0,5 газ, шт",
+                "Бонаква 0,5 не газ, шт",
+                "Рич Тоник, л",
+                "Сахар рафинад, кг",
+                "Ванильный сахар, кг (уп. 0,3кг)",
+                "Мускатный орех (уп. 0,01г)",
+                "Имбирь молотый (уп. 0,01кг)",
+                "Корица молотая (уп. 0,01кг)",
+                "Гвоздика молотая (уп. 0,01кг)",
+                "Перец чёрный молотый (уп. 0,01кг)",
+                "Куркума молотая (уп. 0,01кг)",
+                "Корица палочками, кг (уп. 0,1кг)",
+                "Гвоздика целая (уп. 0,01кг)",
+                "Бадьян целый, кг (уп. 0,1кг)",
+                "Грецкий орех, кг (уп 0,1кг)",
+                "Кокосовая стружка, кг (уп.0,05кг)",
+                "Какао порошок Полеззно, кг (уп. 0,2кг)",
+                "Концентрат лимона (0,5 л), шт",
+                "Основа глинтвейн 1 л",
+                "Зефирки уп. 15 г, шт",
+                "Орео (12 шт.) уп",
+                "Бланк отчет Повара на кухне, шт",
+                "Бланк заявка на продукты/хозы поставщикам",
+                "Бланк заявки на П/Ф (кухня)",
+                "Бланк Отчет ежедневный (точки)",
+                "Бланк заявки на товар со склада (БАР)",
+                "Бланк заявки на ВЫПЕЧКУ с цеха",
+                "Бланк ИНВЕНТАРИЗАЦИИ",
+                "Сироп Поп-корн 0,7л",
+                "Сироп Лаванда, 0,7 л",
+                "Сироп Манго пряный 0,7 л",
+                "Сироп Лесной Орех, 0,7л",
+                "Сироп Солёная карамель 0,7л",
+                "Сироп Кокос, 0,7л",
+                "Сироп Клубника, 0,7л",
+                "Сироп Шок. трюфель, 0,7 л",
+                "Сироп Французкая ваниль, 0,7л",
+                "Сироп Миндаль, 0,7 л",
+                "Сироп Красный апельсин, 0,7 л",
+                "Сироп Плоды и цветы Бузины, 0,7 л",
+                "Сироп Мята-эвкалипт, 0,7 л",
+                "Сироп Маракуйя, 0,7 л",
+                "Сироп Банан, 0,7 л",
+                "Топпинг клубничный (1кг)",
+                "Топпинг малиновый (1кг)",
+                "Топпинг кленовый сироп (1кг)",
+                "Топпинг шоколадный (1 кг)",
+                "Топпинг солёная карамель (1 кг)",
+                "Пюре Облепиха, (1 кг)",
+                "Варенье из сосновых шишек, уп (1,45кг)",
+                "Лимонник с сахаром, уп (0,230 кг)",
+                "Мёд, кг (1,5 кг)",
+                "Болл личи 50гр + трубочка, уп (8шт)",
+                "Болл виноград 50гр + трубочка, уп (8шт)",
+                "Банан шт.",
+                "Апельсин шт.",
+                "Лимон шт."
+            ]
+        },
+        {
+            name: "Чай",
+            items: [
+                "Чай Адмирал (уп 25шт.)",
+                "Чай Ассам Бехора (уп 25шт.)",
+                "Чай Чёрн. Эрл Грей (уп 25шт.)",
+                "Чай Зеленый с мятой (уп 25шт.)",
+                "Чай Чабрец (уп 25шт.)",
+                "Чай Лесная ягода (уп 25шт.)",
+                "Чай Малина мята (уп 25шт.)",
+                "Чай Молочный улун (уп 25шт.)",
+                "Чай Таёжный (уп 25шт.)",
+                "Чай Сладкий поцелуй (уп 25шт.)",
+                "Чай Клубника со сливками (уп 25шт.)"
+            ]
+        },
+        {
+            name: "Хозяйственные товары",
+            items: [
+                "Средство для мытья посуды 1л / 5 л",
+                "Средство для мытья полов 1 л / 5 л",
+                "Средство для стекол 0,5л (шт.)",
+                "Полироль шт.",
+                "НИТРИЛОВЫЕ перчатки S уп.",
+                "НИТРИЛОВЫЕ перчатки M уп.",
+                "НИТРИЛОВЫЕ перчатки L уп.",
+                "Тряпка пыль шт.",
+                "Тряпка пол (1 метр)",
+                "Резиновые перчатки хозяйственные S",
+                "Резиновые перчатки хозяйственные M",
+                "Резиновые перчатки хозяйственные L",
+                "Губки для мытья посуды (1уп.-5шт.)",
+                "Жироудалитель шт. (0,75л)",
+                "Вафельное полотенце (1 метр)",
+                "Бумажные полотенца Рулон (уп.2 шт)",
+                "Бумажные полотенца (Vобразные)уп",
+                "Туалетная бумага (1уп-4шт) уп",
+                "Туалетная бумага большая для диспен., уп",
+                "Освежитель воздуха / сменный баллон. шт.",
+                "Комет шт.",
+                "Доместос шт.",
+                "Железные щетки для посуды (1уп.-2шт.)",
+                "Смен. насадка на швабру 'лапша', шт.",
+                "лента от мух",
+                "Ловушка от тараканов",
+                "Лента для касс. аппарата, шт.",
+                "Лента для безнала шт.",
+                "Термоэтикетка (наклейки) шт.",
+                "Маркер чёрный, шт",
+                "маркер белый, шт",
+                "текстовыделитель, шт",
+                "Ножницы, шт",
+                "Скотч, шт",
+                "Степлер малый, шт.",
+                "Степлер большой, шт.",
+                "Ручка шариковая, красная, шт",
+                "Ручка шариковая, синяя, шт",
+                "Скобы для степлера маленькие",
+                "Скобы для степлера большие",
+                "Стикеры, шт ",
+                "Замазка, шт",
+                "Батарейка Мизинчиковая",
+                "Батарейка Пальчиковая",
+                "Порошок для кофе машины, кг (уп. 0,100 кг)"
+            ]
+        }
+    ];
+
+    // Загрузка данных из localStorage при загрузке страницы
+    window.onload = function() {
+        loadFormData();
+        renderItems();
+    };
+
+    function validateForm() {
+        const storeNameSelect = document.getElementById('storeName');
+        const storeNameError = document.getElementById('storeNameError');
+        if (storeNameSelect.value === "") {
+            storeNameError.style.display = 'block';
+            storeNameSelect.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Прокрутка к полю выбора торговой точки
+            return false;
+        } else {
+            storeNameError.style.display = 'none';
+            return true;
+        }
+    }
+
+    function submitForm() {
+        if (!validateForm()) {
+            return;
+        }
+        const form = document.getElementById('orderForm');
+        const formData = new FormData(form);
+        let orderData = `Название торговой точки: ${formData.get('storeName')}\n`;
+        orderData += `Фамилия сотрудника: ${formData.get('lastName')}\n`;
+        orderData += `Дата: ${new Date().toISOString().slice(0, 10)}\n`; // Автоматическая запись текущей даты
+        orderData += `Заказ:\n`;
+
+        const itemNames = formData.getAll('itemName[]');
+        const quantities = formData.getAll('quantity[]');
+
+        const filteredItems = [];
+        for (let i = 0; i < itemNames.length; i++) {
+            if (quantities[i] && parseInt(quantities[i]) > 0) { // Проверка на пустые значения
+                filteredItems.push(`${itemNames[i]} - ${quantities[i]}`);
+            }
+        }
+
+        if (filteredItems.length > 0) {
+            orderData += `Товары:\n`;
+            filteredItems.forEach(item => {
+                orderData += `${item}\n`;
+            });
+        }
+
+        const storeName = formData.get('storeName').replace(/\s+/g, '_'); // Заменяем пробелы на нижнее подчеркивание
+        const date = new Date().toISOString().slice(0, 10); // Получаем текущую дату в формате YYYY-MM-DD
+        const fileName = `${storeName}_${date}.txt`;
+        const blob = new Blob([orderData], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        URL.revokeObjectURL(url);
+        clearFormData(); // Очищаем данные формы после сохранения файла
+    }
+
+    function shareTextViaWhatsApp() {
+        if (!validateForm()) {
+            return;
+        }
+        const form = document.getElementById('orderForm');
+        const formData = new FormData(form);
+        let orderData = `Название торговой точки: ${formData.get('storeName')}\n`;
+        orderData += `Фамилия сотрудника: ${formData.get('lastName')}\n`;
+        orderData += `Дата: ${new Date().toISOString().slice(0, 10)}\n`; // Автоматическая запись текущей даты
+        orderData += `Заказ:\n`;
+
+        const itemNames = formData.getAll('itemName[]');
+        const quantities = formData.getAll('quantity[]');
+
+        const filteredItems = [];
+        for (let i = 0; i < itemNames.length; i++) {
+            if (quantities[i] && parseInt(quantities[i]) > 0) { // Проверка на пустые значения
+                filteredItems.push(`${itemNames[i]} - ${quantities[i]}`);
+            }
+        }
+
+        if (filteredItems.length > 0) {
+            orderData += `Товары:\n`;
+            filteredItems.forEach(item => {
+                orderData += `${item}\n`;
+            });
+        }
+
+        const whatsappMessage = encodeURIComponent(orderData);
+        const whatsappLink = `https://wa.me/?text=${whatsappMessage}`;
+        window.open(whatsappLink, '_blank');
+        clearFormData(); // Очищаем данные формы после отправки через WhatsApp
+    }
+
+    function saveFormData() {
+        const form = document.getElementById('orderForm');
+        const formData = new FormData(form);
+        const storeName = formData.get('storeName');
+        const lastName = formData.get('lastName');
+        const itemRows = Array.from(document.querySelectorAll('.item-row'));
+        const savedItems = itemRows.map(row => ({
+            itemName: row.querySelector('[name="itemName[]"]').value,
+            quantity: row.querySelector('[name="quantity[]"]').value
+        }));
+        localStorage.setItem('storeName', storeName);
+        localStorage.setItem('lastName', lastName);
+        localStorage.setItem('savedItems', JSON.stringify(savedItems));
+    }
+
+    function loadFormData() {
+        const storedStoreName = localStorage.getItem('storeName');
+        const storedLastName = localStorage.getItem('lastName');
+        const storedItems = JSON.parse(localStorage.getItem('savedItems')) || [];
+        if (storedStoreName) {
+            document.getElementById('storeName').value = storedStoreName;
+        }
+        if (storedLastName) {
+            document.getElementById('lastName').value = storedLastName;
+        }
+    }
+
+    function clearFormData() {
+        localStorage.removeItem('storeName');
+        localStorage.removeItem('lastName');
+        localStorage.removeItem('savedItems');
+        document.getElementById('storeName').value = '';
+        document.getElementById('lastName').value = '';
+        document.getElementById('itemsContainer').innerHTML.didReceiveMemoryWarning();
+    }
+
+    function renderItems() {
+        const itemsContainer = document.getElementById('itemsContainer');
+        categories.forEach(category => {
+            const categoryDiv = document.createElement('details');
+            categoryDiv.innerHTML = `
+                <summary>${category.name}</summary>
+                <div class="category-container">
+                    ${category.items.map(item => `
+                        <div class="item-row">
+                            <span>${item}</span>
+                            <input type="hidden" name="itemName[]" value="${item}">
+                            <input type="number" placeholder="Количество" name="quantity[]" min="0" max="1000" required>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            itemsContainer.appendChild(categoryDiv);
+        });
+    }
+
+    $(function() {
+        // Сохраняем данные формы при любом изменении
+        document.getElementById('orderForm').addEventListener('change', saveFormData);
+    });
+
+    // Загрузка начальных данных
+    loadFormData();
+</script>
+</body>
+</html>
