@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.center-button {
+    display: block;
+    margin: 20px auto;
+    width: 50%;
+}
+
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.item-row input, .item-row select {
+    width: 48%;
+    padding: 10px;
+    margin-bottom: 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.share-buttons button {
+    width: 48%;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.share-buttons button:last-child {
+    margin-right: 0;
+}
+
+.green-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.green-button:hover {
+    background-color: #218838;
+}
+
+.orange-button {
+    background-color: #fd7e14;
+    color: white;
+}
+
+.orange-button:hover {
+    background-color: #e0540d;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+details {
+    margin-bottom: 20px;
+}
+
+summary {
+    font-weight: bold;
+    cursor: pointer;
+}
