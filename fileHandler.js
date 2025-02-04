@@ -1,8 +1,6 @@
 let uploadedFile = null;
 
-document.getElementById('uploadFile').addEventListener('change', handleFileSelection);
-
-function handleFileSelection(event) {
+export function handleFileSelection(event) {
     const file = event.target.files[0];
     const storeNameSelect = document.getElementById('storeName');
     const selectedStore = storeNameSelect.value;
@@ -22,7 +20,7 @@ function handleFileSelection(event) {
     document.getElementById('loadButton').style.display = 'block';
 }
 
-function processUploadedFile() {
+export function processUploadedFile() {
     const storeNameSelect = document.getElementById('storeName');
     const selectedStore = storeNameSelect.value;
 
