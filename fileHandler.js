@@ -1,21 +1,10 @@
+import { stores } from './script.js'; // Импортируем stores
+
 let uploadedFile = null;
 
 document.getElementById('uploadFile').addEventListener('change', handleFileSelection);
 
 function handleFileSelection(event) {
-    // Логика обработки выбора файла
-}
-
-function processUploadedFile() {
-    // Логика обработки файла
-}
-
-// Экспортируем функции в глобальную область видимости
-window.fileHandler = {
-    processUploadedFile,
-};
-
-export function handleFileSelection(event) {
     const file = event.target.files[0];
     const storeNameSelect = document.getElementById('storeName');
     const selectedStore = storeNameSelect.value;
