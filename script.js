@@ -69,5 +69,10 @@ document.getElementById('storeName').addEventListener('change', function () {
         document.getElementById('itemsContainer').innerHTML = '';
     }
 });
+import { handleFileSelection, processUploadedFile } from './fileHandler.js';
+
+document.getElementById('uploadFile').addEventListener('change', handleFileSelection);
+
+document.getElementById('loadButton').onclick = processUploadedFile;
 
 window.onload = loadInitialData;
