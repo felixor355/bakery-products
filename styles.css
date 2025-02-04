@@ -3,14 +3,42 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
     line-height: 1.6;
 
     /* Фоновое изображение */
-    background-image: url('5c602a2a-5050-4869-98b6-8b1490d9983e.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-image: url('803c2a1b-c893-4d73-a5e9-caac796009f6.png');
+    background-size: cover; /* Масштабируем изображение, чтобы оно покрывало весь экран */
+    background-position: center; /* Центрируем изображение */
+    background-repeat: no-repeat; /* Запрещаем повторение */
+    background-attachment: fixed; /* Изображение фиксируется при прокрутке (опционально) */
+}
+
+/* Для очень маленьких экранов (мобильные устройства) */
+@media (max-width: 768px) {
+    body {
+        background-size: contain; /* Изображение масштабируется до размера экрана без обрезания */
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: scroll; /* Если экран маленький, изображение будет прокручиваться вместе с контентом */
+    }
+}
+
+/* Для экранов среднего размера (планшеты) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    body {
+        background-size: cover; /* Возвращаемся к масштабированию для планшетов */
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+/* Для больших экранов (компьютеры) */
+@media (min-width: 1025px) {
+    body {
+        background-size: cover; /* Масштабируем изображение для больших экранов */
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 }
 
 h1 {
