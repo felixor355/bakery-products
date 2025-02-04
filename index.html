@@ -9,32 +9,37 @@
 <body>
     <h1>Форма Заказа Выпечки</h1>
     <form id="orderForm">
+        <!-- Выбор торговой точки -->
         <label for="storeName">Название торговой точки:</label>
         <select id="storeName" name="storeName" required>
             <option value="">Выберите торговую точку</option>
         </select>
         <div class="error-message" id="storeNameError" style="display:none;">Пожалуйста, выберите торговую точку.</div>
 
+        <!-- Фамилия сотрудника -->
         <label for="lastName">Фамилия сотрудника:</label>
         <input type="text" id="lastName" name="lastName" required>
 
-        <!-- Загрузка файла -->
+        <!-- Загрузка файла ceh.txt -->
         <label for="uploadFile">Загрузить новый список товаров (файл ceh.txt):</label>
         <input type="file" id="uploadFile" accept=".txt">
-        <button type="button" id="loadButton" class="orange-button" style="display: none;" onclick="fileHandler.processUploadedFile()">
-    Загрузить на торговую точку
+        <button type="button" id="loadButton" class="orange-button" style="display: none;">
+            Загрузить на торговую точку
         </button>
 
+        <!-- Контейнер для товаров -->
         <div id="itemsContainer">
             <!-- Здесь будут динамически добавляться строки -->
         </div>
 
+        <!-- Кнопки действия -->
         <div class="share-buttons">
             <button type="button" onclick="orderExporter.submitForm()" class="orange-button">Сохранить заявку</button>
             <button type="button" onclick="whatsappSender.shareTextViaWhatsApp()" class="green-button">Поделиться в WhatsApp</button>
         </div>
     </form>
 
+    <!-- Подключение скриптов -->
     <script type="module" src="formValidator.js"></script>
     <script type="module" src="fileHandler.js"></script>
     <script type="module" src="orderExporter.js"></script>
