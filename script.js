@@ -52,6 +52,41 @@ function renderItems(storeName) {
     });
 }
 
+//Логи для отладки
+reader.onload = function (e) {
+    const fileContent = e.target.result.trim();
+    console.log("Содержимое файла:", fileContent);
+
+    const lines = fileContent.split('\n').map(line => line.trim());
+    console.log("Строки файла:", lines);
+
+    if (!stores[selectedStore]) {
+        stores[selectedStore] = [];
+    } else {
+        stores[selectedStore].splice(0, stores[selectedStore].length);
+    }
+
+    let currentCategory = null;
+
+    lines.forEach(line => {
+        if (line.startsWith('#')) {
+            const categoryName = line.slice(1).trim();
+            if (categoryName) {
+                currentCategory = { name: categoryName, items: [] };
+                stores[selectedStore].push(currentCategory);
+                console.log(`Добавлена категория: ${categoryName}`);
+            }
+        } else if (currentCategory && line !== '') {
+            currentCategory.items.push(line);
+            console.log(`Добавлен товар: ${line} в категорию ${currentCategory.name}`);
+        }
+    });
+
+    console.log("Обновленные данные для точки:", stores[selectedStore]);
+
+    renderItems(selectedStore);
+    alert("Список товаров успешно обновлен!");
+};
 //Импорт из файла
 document.getElementById('uploadFile').addEventListener('change', handleFileUpload);
 
