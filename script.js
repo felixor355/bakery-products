@@ -60,11 +60,13 @@ function handleFileUpload(event) {
     const storeNameSelect = document.getElementById('storeName');
     const selectedStore = storeNameSelect.value;
 
+    // Проверяем выбранную торговую точку
     if (!selectedStore) {
         alert("Пожалуйста, выберите торговую точку перед загрузкой файла.");
         return;
     }
 
+    // Проверяем имя файла
     if (!file || file.name !== 'ceh.txt') {
         alert("Ошибка: Загрузите файл с именем 'ceh.txt'.");
         return;
@@ -73,33 +75,40 @@ function handleFileUpload(event) {
     const reader = new FileReader();
 
     reader.onload = function (e) {
-        const fileContent = e.target.result.trim();
-        const lines = fileContent.split('\n');
+        const fileContent = e.target.result.trim(); // Удаляем лишние пробелы
+        const lines = fileContent.split('\n').map(line => line.trim()); // Разделяем по строкам и очищаем каждую строку
 
         // Очищаем текущие категории для выбранной торговой точки
-        if (stores[selectedStore]) {
+        if (!stores[selectedStore]) {
             stores[selectedStore] = [];
+        } else {
+            stores[selectedStore].splice(0, stores[selectedStore].length); // Полностью очищаем массив
         }
 
-        // Добавляем новые категории и товары
         let currentCategory = null;
 
         lines.forEach(line => {
             if (line.startsWith('#')) { // Новая категория начинается с '#'
-                currentCategory = { name: line.slice(1).trim(), items: [] };
-                stores[selectedStore].push(currentCategory);
-            } else if (currentCategory && line.trim() !== '') {
-                currentCategory.items.push(line.trim());
+                const categoryName = line.slice(1).trim();
+                if (categoryName) {
+                    currentCategory = { name: categoryName, items: [] };
+                    stores[selectedStore].push(currentCategory);
+                }
+            } else if (currentCategory && line !== '') {
+                currentCategory.items.push(line);
             }
         });
 
         // Перерисовываем интерфейс
         renderItems(selectedStore);
         alert("Список товаров успешно обновлен!");
+
+        // Очищаем input файла для следующей загрузки
+        document.getElementById('uploadFile').value = '';
     };
 
     reader.onerror = function () {
-        alert("Ошибка чтения файла.");
+        alert("Ошибка чтения файла. Попробуйте снова.");
     };
 
     reader.readAsText(file);
