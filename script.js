@@ -72,12 +72,6 @@ function validateForm() {
         isValid = false;
     }
 
-    for (const input of quantityInputs) {
-        if (input.value.trim() === "" || parseInt(input.value) <= 0) {
-            alert(`Пожалуйста, укажите количество для "${input.previousElementSibling.textContent}".`);
-            isValid = false;
-        }
-    }
 
     return isValid;
 }
