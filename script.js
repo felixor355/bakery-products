@@ -43,7 +43,7 @@ function renderItems(storeName) {
                     <div class="item-row">
                         <span>${item}</span>
                         <input type="hidden" name="itemName[]" value="${item}">
-                        <input type="number" placeholder="Количество" name="quantity[]" min="0" max="1000" required>
+                        <input type="number" placeholder="Количество" name="quantity[]" min="0" max="1000"> <!-- Убрали required -->
                     </div>
                 `).join('')}
             </div>
@@ -56,10 +56,10 @@ function renderItems(storeName) {
 function validateForm() {
     const storeNameSelect = document.getElementById('storeName');
     const lastNameInput = document.getElementById('lastName');
-    const quantityInputs = document.querySelectorAll('[name="quantity[]"]');
 
     let isValid = true;
 
+    // Проверка торговой точки
     if (storeNameSelect.value === "") {
         document.getElementById('storeNameError').style.display = 'block';
         isValid = false;
@@ -67,11 +67,11 @@ function validateForm() {
         document.getElementById('storeNameError').style.display = 'none';
     }
 
+    // Проверка фамилии сотрудника
     if (lastNameInput.value.trim() === "") {
         alert("Пожалуйста, введите фамилию сотрудника.");
         isValid = false;
     }
-
 
     return isValid;
 }
@@ -126,7 +126,7 @@ function submitForm() {
 
     const filteredItems = [];
     for (let i = 0; i < itemNames.length; i++) {
-        if (quantities[i] && parseInt(quantities[i]) > 0) {
+        if (quantities[i] && parseInt(quantities[i]) > 0) { // Учитываем только товары с количеством > 0
             filteredItems.push(`${itemNames[i]} - ${quantities[i]}`);
         }
     }
@@ -136,6 +136,8 @@ function submitForm() {
         filteredItems.forEach(item => {
             orderData += `${item}\n`;
         });
+    } else {
+        orderData += "Товары не выбраны.\n";
     }
 
     const storeName = formData.get('storeName').replace(/\s+/g, '_');
@@ -180,6 +182,8 @@ function shareTextViaWhatsApp() {
         filteredItems.forEach(item => {
             orderData += `${item}\n`;
         });
+    } else {
+        orderData += "Товары не выбраны.\n";
     }
 
     const whatsappMessage = encodeURIComponent(orderData);
