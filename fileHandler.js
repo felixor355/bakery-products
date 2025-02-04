@@ -1,7 +1,8 @@
-import { stores } from './script.js'; // Импортируем stores
+import { stores, renderItems } from './script.js'; // Импортируем stores и renderItems
 
 let uploadedFile = null;
 
+// Обработчик выбора файла
 document.getElementById('uploadFile').addEventListener('change', handleFileSelection);
 
 function handleFileSelection(event) {
@@ -24,6 +25,7 @@ function handleFileSelection(event) {
     document.getElementById('loadButton').style.display = 'block';
 }
 
+// Обработка нажатия на кнопку "Загрузить на торговую точку"
 export function processUploadedFile() {
     const storeNameSelect = document.getElementById('storeName');
     const selectedStore = storeNameSelect.value;
@@ -69,7 +71,7 @@ export function processUploadedFile() {
             }
         });
 
-        renderItems(selectedStore);
+        renderItems(selectedStore); // Перерисовываем интерфейс
         alert("Список товаров успешно обновлен!");
 
         uploadedFile = null;
