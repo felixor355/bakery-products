@@ -1,7 +1,9 @@
-let stores = {}; // Общая переменная для хранения данных о магазинах
-let categories = {};
+// Экспорт переменных для использования в других модулях
+export let stores = {}; // Общая переменная для хранения данных о магазинах
+export let categories = {};
 
-async function loadInitialData() {
+// Загрузка начальных данных
+export async function loadInitialData() {
     try {
         const [storesResponse, categoriesResponse] = await Promise.all([
             fetch('stores.json'),
@@ -24,47 +26,12 @@ async function loadInitialData() {
     }
 }
 
-window.onload = loadInitialData;
-
-        loadFormData();
-    } catch (error) {
-        console.error('Ошибка при загрузке данных:', error);
-    }
-}
-
-export let stores = {}; // Экспортируем stores
-export let categories = {};
-
-async function loadInitialData() {
-    try {
-        const [storesResponse, categoriesResponse] = await Promise.all([
-            fetch('stores.json'),
-            fetch('categories.json')
-        ]);
-        stores = await storesResponse.json(); // Загружаем данные
-        categories = await categoriesResponse.json();
-
-        const storeSelect = document.getElementById('storeName');
-        Object.keys(stores).forEach(store => {
-            const option = document.createElement('option');
-            option.value = store;
-            option.textContent = store;
-            storeSelect.appendChild(option);
-        });
-
-        loadFormData();
-    } catch (error) {
-        console.error('Ошибка при загрузке данных:', error);
-    }
-}
-
-window.onload = loadInitialData;
-
-function renderItems(storeName) {
+// Рендеринг категорий для выбранного магазина
+export function renderItems(storeName) {
     const itemsContainer = document.getElementById('itemsContainer');
-    itemsContainer.innerHTML = '';
+    itemsContainer.innerHTML = ''; // Очищаем контейнер перед рендерингом
 
-    const storeCategories = stores[storeName] || [];
+    const storeCategories = stores[storeName] || []; // Получаем категории для точки или пустой массив
 
     storeCategories.forEach(category => {
         const categoryDiv = document.createElement('details');
@@ -84,6 +51,7 @@ function renderItems(storeName) {
     });
 }
 
+// Восстановление данных из localStorage
 function loadFormData() {
     const storedData = JSON.parse(localStorage.getItem('formData'));
 
@@ -92,23 +60,26 @@ function loadFormData() {
         document.getElementById('lastName').value = storedData.lastName;
 
         if (storedData.storeName) {
-            renderItems(storedData.storeName);
+            renderItems(storedData.storeName); // Рендерим товары для сохраненной точки
         }
     }
 }
 
+// Обработчик изменения торговой точки
 document.getElementById('storeName').addEventListener('change', function () {
     const selectedStore = this.value;
     if (selectedStore) {
-        renderItems(selectedStore);
+        renderItems(selectedStore); // Рендерим товары для выбранной точки
     } else {
-        document.getElementById('itemsContainer').innerHTML = '';
+        document.getElementById('itemsContainer').innerHTML = ''; // Очищаем контейнер, если ничего не выбрано
     }
 });
+
+// Инициализация страницы
+window.onload = loadInitialData;
+
+// Импорт функций из fileHandler.js
 import { handleFileSelection, processUploadedFile } from './fileHandler.js';
 
 document.getElementById('uploadFile').addEventListener('change', handleFileSelection);
-
 document.getElementById('loadButton').onclick = processUploadedFile;
-
-window.onload = loadInitialData;
