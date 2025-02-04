@@ -32,6 +32,34 @@ window.onload = loadInitialData;
     }
 }
 
+export let stores = {}; // Экспортируем stores
+export let categories = {};
+
+async function loadInitialData() {
+    try {
+        const [storesResponse, categoriesResponse] = await Promise.all([
+            fetch('stores.json'),
+            fetch('categories.json')
+        ]);
+        stores = await storesResponse.json(); // Загружаем данные
+        categories = await categoriesResponse.json();
+
+        const storeSelect = document.getElementById('storeName');
+        Object.keys(stores).forEach(store => {
+            const option = document.createElement('option');
+            option.value = store;
+            option.textContent = store;
+            storeSelect.appendChild(option);
+        });
+
+        loadFormData();
+    } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+    }
+}
+
+window.onload = loadInitialData;
+
 function renderItems(storeName) {
     const itemsContainer = document.getElementById('itemsContainer');
     itemsContainer.innerHTML = '';
