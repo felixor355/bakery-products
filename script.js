@@ -52,6 +52,58 @@ function renderItems(storeName) {
     });
 }
 
+//Импорт из файла
+document.getElementById('uploadFile').addEventListener('change', handleFileUpload);
+
+function handleFileUpload(event) {
+    const file = event.target.files[0];
+    const storeNameSelect = document.getElementById('storeName');
+    const selectedStore = storeNameSelect.value;
+
+    if (!selectedStore) {
+        alert("Пожалуйста, выберите торговую точку перед загрузкой файла.");
+        return;
+    }
+
+    if (!file || file.name !== 'ceh.txt') {
+        alert("Ошибка: Загрузите файл с именем 'ceh.txt'.");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        const fileContent = e.target.result.trim();
+        const lines = fileContent.split('\n');
+
+        // Очищаем текущие категории для выбранной торговой точки
+        if (stores[selectedStore]) {
+            stores[selectedStore] = [];
+        }
+
+        // Добавляем новые категории и товары
+        let currentCategory = null;
+
+        lines.forEach(line => {
+            if (line.startsWith('#')) { // Новая категория начинается с '#'
+                currentCategory = { name: line.slice(1).trim(), items: [] };
+                stores[selectedStore].push(currentCategory);
+            } else if (currentCategory && line.trim() !== '') {
+                currentCategory.items.push(line.trim());
+            }
+        });
+
+        // Перерисовываем интерфейс
+        renderItems(selectedStore);
+        alert("Список товаров успешно обновлен!");
+    };
+
+    reader.onerror = function () {
+        alert("Ошибка чтения файла.");
+    };
+
+    reader.readAsText(file);
+}
 // Валидация формы
 function validateForm() {
     const storeNameSelect = document.getElementById('storeName');
