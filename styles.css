@@ -2,8 +2,14 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
     line-height: 1.6;
+
+    /* Фоновое изображение */
+    background-image: url('803c2a1b-c893-4d73-a5e9-caac796009f6.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f4f4f4; /* Резервный цвет фона */
 }
 
 h1 {
@@ -11,7 +17,7 @@ h1 {
 }
 
 form {
-    background: white;
+    background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -98,4 +104,13 @@ details {
 summary {
     font-weight: bold;
     cursor: pointer;
+}
+
+/* Адаптивность для маленьких экранов */
+@media (max-width: 768px) {
+    body {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 }
