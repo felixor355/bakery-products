@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Форма Заказа Выпечки</h1>
-    <form id="orderForm">
+   <form id="orderForm">
     <label for="storeName">Название торговой точки:</label>
     <select id="storeName" name="storeName" required>
         <option value="">Выберите торговую точку</option>
@@ -21,6 +21,11 @@
     <!-- Элемент для загрузки файла -->
     <label for="uploadFile">Загрузить новый список товаров (файл ceh.txt):</label>
     <input type="file" id="uploadFile" accept=".txt">
+
+    <!-- Кнопка загрузки -->
+    <button type="button" id="loadButton" class="orange-button" style="display: none;" onclick="processUploadedFile()">
+        Загрузить на торговую точку
+    </button>
 
     <div id="itemsContainer">
         <!-- Здесь будут динамически добавляться строки -->
