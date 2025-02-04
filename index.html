@@ -8,35 +8,37 @@
 </head>
 <body>
     <h1>Форма Заказа Выпечки</h1>
-   <form id="orderForm">
-    <label for="storeName">Название торговой точки:</label>
-    <select id="storeName" name="storeName" required>
-        <option value="">Выберите торговую точку</option>
-    </select>
-    <div class="error-message" id="storeNameError" style="display:none;">Пожалуйста, выберите торговую точку.</div>
+    <form id="orderForm">
+        <label for="storeName">Название торговой точки:</label>
+        <select id="storeName" name="storeName" required>
+            <option value="">Выберите торговую точку</option>
+        </select>
+        <div class="error-message" id="storeNameError" style="display:none;">Пожалуйста, выберите торговую точку.</div>
 
-    <label for="lastName">Фамилия сотрудника:</label>
-    <input type="text" id="lastName" name="lastName" required>
+        <label for="lastName">Фамилия сотрудника:</label>
+        <input type="text" id="lastName" name="lastName" required>
 
-    <!-- Элемент для загрузки файла -->
-    <label for="uploadFile">Загрузить новый список товаров (файл ceh.txt):</label>
-    <input type="file" id="uploadFile" accept=".txt">
+        <!-- Загрузка файла -->
+        <label for="uploadFile">Загрузить новый список товаров (файл ceh.txt):</label>
+        <input type="file" id="uploadFile" accept=".txt">
+        <button type="button" id="loadButton" class="orange-button" style="display: none;" onclick="fileHandler.processUploadedFile()">
+            Загрузить на торговую точку
+        </button>
 
-    <!-- Кнопка загрузки -->
-    <button type="button" id="loadButton" class="orange-button" style="display: none;" onclick="processUploadedFile()">
-        Загрузить на торговую точку
-    </button>
+        <div id="itemsContainer">
+            <!-- Здесь будут динамически добавляться строки -->
+        </div>
 
-    <div id="itemsContainer">
-        <!-- Здесь будут динамически добавляться строки -->
-    </div>
+        <div class="share-buttons">
+            <button type="button" onclick="orderExporter.submitForm()" class="orange-button">Сохранить заявку</button>
+            <button type="button" onclick="whatsappSender.shareTextViaWhatsApp()" class="green-button">Поделиться в WhatsApp</button>
+        </div>
+    </form>
 
-    <div class="share-buttons">
-        <button type="button" onclick="submitForm()" class="orange-button">Сохранить заявку</button>
-        <button type="button" onclick="shareTextViaWhatsApp()" class="green-button">Поделиться в WhatsApp</button>
-    </div>
-</form>
-
+    <script src="formValidator.js"></script>
+    <script src="fileHandler.js"></script>
+    <script src="orderExporter.js"></script>
+    <script src="whatsappSender.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
