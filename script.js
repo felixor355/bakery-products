@@ -6,12 +6,16 @@ export let categories = {};
 export async function loadInitialData() {
     try {
         const [storesResponse, categoriesResponse] = await Promise.all([
-            fetch('stores.json'),
+            fetch('stores.json'), // Убедитесь, что путь к файлу правильный
             fetch('categories.json')
         ]);
         stores = await storesResponse.json(); // Загружаем данные в глобальную переменную
         categories = await categoriesResponse.json();
 
+        console.log("Stores загружены:", stores); // Лог для отладки
+        console.log("Categories загружены:", categories);
+
+        // Заполнение выпадающего списка магазинов
         const storeSelect = document.getElementById('storeName');
         Object.keys(stores).forEach(store => {
             const option = document.createElement('option');
@@ -20,9 +24,11 @@ export async function loadInitialData() {
             storeSelect.appendChild(option);
         });
 
+        // Восстановление данных из localStorage
         loadFormData();
     } catch (error) {
-        console.error('Ошибка при загрузке данных:', error);
+        console.error('Ошибка при загрузке данных:', error.message);
+        alert("Не удалось загрузить данные. Проверьте файлы stores.json и categories.json.");
     }
 }
 
@@ -77,9 +83,3 @@ document.getElementById('storeName').addEventListener('change', function () {
 
 // Инициализация страницы
 window.onload = loadInitialData;
-
-// Импорт функций из fileHandler.js
-import { handleFileSelection, processUploadedFile } from './fileHandler.js';
-
-document.getElementById('uploadFile').addEventListener('change', handleFileSelection);
-document.getElementById('loadButton').onclick = processUploadedFile;
