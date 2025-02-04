@@ -1,5 +1,5 @@
-let stores = {};
-let categories = [];
+let stores = {}; // Общая переменная для хранения данных о магазинах
+let categories = {};
 
 async function loadInitialData() {
     try {
@@ -7,7 +7,7 @@ async function loadInitialData() {
             fetch('stores.json'),
             fetch('categories.json')
         ]);
-        stores = await storesResponse.json();
+        stores = await storesResponse.json(); // Загружаем данные в глобальную переменную
         categories = await categoriesResponse.json();
 
         const storeSelect = document.getElementById('storeName');
@@ -17,6 +17,14 @@ async function loadInitialData() {
             option.textContent = store;
             storeSelect.appendChild(option);
         });
+
+        loadFormData();
+    } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+    }
+}
+
+window.onload = loadInitialData;
 
         loadFormData();
     } catch (error) {
