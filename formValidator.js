@@ -1,7 +1,6 @@
 function validateForm() {
     const storeNameSelect = document.getElementById('storeName');
     const lastNameInput = document.getElementById('lastName');
-
     let isValid = true;
 
     if (storeNameSelect.value === "") {
@@ -23,8 +22,13 @@ function validateOrder(formData) {
     const itemNames = formData.getAll('itemName[]');
     const quantities = formData.getAll('quantity[]');
 
+    if (quantities.length === 0) {
+        alert("Ошибка: Вы не добавили ни одного товара.");
+        return false;
+    }
+
     for (let i = 0; i < quantities.length; i++) {
-        if (parseInt(quantities[i]) > 0) {
+        if (parseInt(quantities[i], 10) > 0) {
             return true; // Есть хотя бы один выбранный товар
         }
     }
