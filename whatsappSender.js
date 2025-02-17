@@ -1,3 +1,5 @@
+import { validateForm, validateOrder } from './formValidator.js'; // Импортируем функции
+
 document.addEventListener('DOMContentLoaded', () => {
     const whatsappButton = document.querySelector('.green-button');
 
@@ -7,6 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function shareTextViaWhatsApp() {
         console.log("Кнопка 'Поделиться в WhatsApp' нажата");
+
+        if (!validateForm || typeof validateForm !== 'function') {
+            console.error("Функция validateForm не определена!");
+            return;
+        }
+
+        if (!validateOrder || typeof validateOrder !== 'function') {
+            console.error("Функция validateOrder не определена!");
+            return;
+        }
 
         if (!validateForm() || !validateOrder(new FormData(document.getElementById('orderForm')))) return;
 
