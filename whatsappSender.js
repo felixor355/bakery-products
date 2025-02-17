@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function shareTextViaWhatsApp() {
         console.log("Кнопка 'Поделиться в WhatsApp' нажата");
 
-        // Ваш существующий код функции
         if (!validateForm() || !validateOrder(new FormData(document.getElementById('orderForm')))) return;
 
         const form = document.getElementById('orderForm');
