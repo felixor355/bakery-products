@@ -1,27 +1,23 @@
-function shareTextViaWhatsApp() {
-    console.log("shareTextViaWhatsApp вызван");
+document.addEventListener('DOMContentLoaded', () => {
+    const whatsappButton = document.querySelector('.green-button');
 
-    if (!validateForm()) {
-        console.error("Ошибка валидации формы");
-        return;
+    if (whatsappButton) {
+        whatsappButton.addEventListener('click', shareTextViaWhatsApp);
     }
 
-    if (!validateOrder(new FormData(document.getElementById('orderForm')))) {
-        console.error("Ошибка валидации заказа");
-        return;
+    function shareTextViaWhatsApp() {
+        console.log("Кнопка 'Поделиться в WhatsApp' нажата");
+
+        // Ваш существующий код функции
+        if (!validateForm() || !validateOrder(new FormData(document.getElementById('orderForm')))) return;
+
+        const form = document.getElementById('orderForm');
+        const formData = new FormData(form);
+        const orderData = generateOrderData(formData);
+        const whatsappMessage = encodeURIComponent(orderData);
+        const whatsappLink = `https://wa.me/?text=${whatsappMessage}`;
+
+        window.open(whatsappLink, '_blank');
+        clearFormData();
     }
-
-    const form = document.getElementById('orderForm');
-    const formData = new FormData(form);
-    console.log("Данные формы:", Object.fromEntries(formData));
-
-    const orderData = generateOrderData(formData);
-    console.log("Текст заказа:", orderData);
-
-    const whatsappMessage = encodeURIComponent(orderData);
-    const whatsappLink = `https://wa.me/?text=${whatsappMessage}`;
-    console.log("Ссылка WhatsApp:", whatsappLink);
-
-    window.open(whatsappLink, '_blank');
-    clearFormData();
-}
+});
